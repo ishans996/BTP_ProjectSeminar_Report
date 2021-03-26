@@ -54,8 +54,8 @@
 \begin{document}
 \title{\textbf{Project Report - Designing HPC job schedulers using Reinforcement Learning}}
 \author{
-  Report by: \\
-  Ishan Sharma
+  Ishan Sharma \\
+  18CS30020
   \and
   Mentored by: \\
   Mr. Anirban Ghose
@@ -76,7 +76,7 @@
 \begin{normalsize}
 % \thefontsize
 The project aims to develop intelligent schedulers for Embedded systems in automobiles. We consider a heterogeneous Advanced Driver-Assistance System 
-\textbf{ADAS} platform comprising heterogeneous ECUs consisting both CPU and GPGPU cores and a set of object detection pipelines executing periodically to process sensor data leveraging state of the art DNNs and CNNs. There exists a natural requirement for real time guarantees for executing these object detection pipelines. The existing ADAS scheduling algorithms are not equipped to handle tasks with time varying dynamic requirements dictated by different driving contexts. Instead of investigating every possible mapping decision, an intelligent task scheduler needs to be designed which will predict task-device mapping decisions. 
+\textbf{ADAS} platform comprising heterogeneous ECUs consisting both CPU and GPGPU cores and a set of object detection pipelines executing periodically to process sensor data leveraging state of the art DNNs and CNNs. There exists a natural requirement for real time guarantees for executing these object detection pipelines. The existing ADAS scheduling algorithms are not equipped to handle tasks with time varying dynamic requirements dictated by different driving contexts. Instead of investigating every possible mapping decision, an intelligent task scheduler needs to be designed which will predict task-device mapping decisions. The proposed thesis would investigate different distributed RL training methodologies for learning a policy that would suggest these task-device mapping decisions at runtime.
 \end{normalsize}
 
 \section{Previous accomplishments}
@@ -98,7 +98,7 @@ We now aim to develop a framework for distributed training of the Reinforcement 
 
 \section{Problems to be solved}
 \begin{normalsize}
-There exist \(N\) different jobs in the system. Each job can have one of \(k\) possible periods. Thus, there are \(k^N\) different period configurations. First thing to note here is that the search space is exponential in the number of jobs. Each period configuration runs for \(S\) simulations. This entire process runs for \(E\) epochs. Therefore, the entire computation is $\mathcal{O}(k^N \times S  \times E)$. Second thing to note, the search space shifts only a bit between successive period configurations. The current implementation of the RL scheduler (on one worker) relies on the learning accumulated in the previous period configurations for learning the next one. This reliance gradually increases towards the end of training. \textbf{The first problem} is how should this reliance among different period configurations to speed up the training be handled in a distributed system? \textbf{The second problem} is how should exponential decay be handled in exploration-exploitation trade-off? One of following two approaches can be followed to solve the second problem after establishing its optimality:
+There exist \(N\) different jobs in the system. Each job can have one of \(k\) possible periods. Thus, there are \(k^N\) different period configurations. First thing to note here is that the search space is exponential in the number of jobs. Each period configuration runs for \(S\) simulations. This entire process runs for \(E\) epochs. Therefore, the entire computation is $\mathcal{O}(k^N \times S  \times E)$. Second thing to note, the search space shifts only a bit between successive period configurations. The current implementation of the RL scheduler (on one worker) relies on the learning accumulated in the previous period configurations for learning the next one. This reliance gradually increases towards the end of training. \textbf{The first problem} is how should this reliance among different period configurations be handled in a distributed system in order to speed up the training? \textbf{The second problem} is how should exponential decay be handled in exploration-exploitation trade-off? One of following two approaches can be followed to solve the second problem after establishing its optimality:
 \begin{itemize}
     \item Distribute a proportion of \(S\) simulation runs of one period configuration among all workers at once and accumulate the results upon completion.
     \item Allot all \(S\) simulation runs of one period configuration to one worker. 
@@ -109,7 +109,6 @@ At last, we propose the following architecture (Figure 1) for RL scheduling agen
 % \includegraphics{gorila_img.PNG}
 
 
-\clearpage
 \bibliography{citations}
 \bibliographystyle{rsc}
 \end{document}
